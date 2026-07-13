@@ -1,7 +1,7 @@
 import { computed, reactive, ref } from 'vue';
 import { useTranslation } from 'i18next-vue';
 import html2pdf from 'html2pdf.js';
-import type { LoveResumeForm, RelationshipEntry, ReferenceEntry } from '../types';
+import type { LoveResumeForm, RelationshipEntry, ReferenceEntry, SkillEntry } from '../types';
 
 const randomId = (): string => crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2, 10);
 
@@ -58,6 +58,11 @@ export function useLoveResumeForm() {
     relation: '',
     quote: '',
     type: 'fun'
+  });
+
+  const skillDraft = reactive<Pick<SkillEntry, 'name' | 'level'>>({
+    name: '',
+    level: 5
   });
 
   const addTrait = (): void => {
@@ -141,6 +146,29 @@ export function useLoveResumeForm() {
     }
   };
 
+  const addSkill = (): void => {
+    const name = skillDraft.name.trim();
+    if (!name) {
+      return;
+    }
+
+    form.coupleSkills.push({
+      id: randomId(),
+      name,
+      level: skillDraft.level
+    });
+
+    skillDraft.name = '';
+    skillDraft.level = 5;
+  };
+
+  const removeSkill = (id: string): void => {
+    const index = form.coupleSkills.findIndex((entry) => entry.id === id);
+    if (index !== -1) {
+      form.coupleSkills.splice(index, 1);
+    }
+  };
+
   const resetTraits = (): void => {
     form.personalityTraits = [];
     form.values = [];
@@ -202,6 +230,7 @@ export function useLoveResumeForm() {
     newValue,
     relationshipDraft,
     referenceDraft,
+    skillDraft,
     addTrait,
     addValue,
     removeTrait,
@@ -210,6 +239,8 @@ export function useLoveResumeForm() {
     removeRelationship,
     addReference,
     removeReference,
+    addSkill,
+    removeSkill,
     resetTraits,
     generatePdf,
     privacyLabel,

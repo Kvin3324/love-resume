@@ -2,7 +2,8 @@
   "app": {
     "brand": "LoveResume",
     "title": "Ton CV love, version premium.",
-    "subtitle": "Raconte ton parcours sentimental, partage tes valeurs, et génère un PDF fun sans rien stocker.",
+    "subtitle": "Ton parcours amoureux, tes valeurs, ton style — le tout dans un PDF fun. Zéro donnée stockée.",
+    "disclaimer": "Reste courtois·e envers les autres et ne partage aucune coordonnée personnelle.",
     "exportCta": "Exporter en PDF"
   },
   "privacy": {
@@ -80,8 +81,13 @@
     "semiPrivateStatus": "Filtré",
     "linkOnlyStatus": "Sur invitation"
   },
-  "vibes": {
-    "title": "Vibes"
+  "skills": {
+    "title": "Compétences",
+    "subtitle": "Choisis tes compétences clés et ajuste leur niveau.",
+    "add": "Ajouter une compétence",
+    "remove": "Supprimer",
+    "namePlaceholder": "Nom de la compétence",
+    "levelLabel": "Niveau de {{name}}"
   },
   "switcher": {
     "fr": "FR",

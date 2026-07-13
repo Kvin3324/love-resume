@@ -2,7 +2,8 @@
   "app": {
     "brand": "LoveResume",
     "title": "Your love resume, premium edition.",
-    "subtitle": "Tell your dating story, share your values, and generate a fun PDF without storing anything.",
+    "subtitle": "Your dating story, your values, your vibe — all in one fun PDF. Zero data stored.",
+    "disclaimer": "Stay courteous toward others and never share personal contact details.",
     "exportCta": "Export as PDF"
   },
   "privacy": {
@@ -80,8 +81,13 @@
     "semiPrivateStatus": "Filtered",
     "linkOnlyStatus": "By invitation"
   },
-  "vibes": {
-    "title": "Vibes chart"
+  "skills": {
+    "title": "Skills",
+    "subtitle": "Pick your key skills and adjust their level.",
+    "add": "Add a skill",
+    "remove": "Remove",
+    "namePlaceholder": "Skill name",
+    "levelLabel": "{{name}} level"
   },
   "switcher": {
     "fr": "FR",

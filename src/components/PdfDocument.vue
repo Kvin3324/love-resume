@@ -62,7 +62,7 @@
 
     <!-- Vibes chart -->
     <section class="pdf-avoid-break mt-12 rounded-3xl border border-white/10 bg-slate-900/60 p-8">
-      <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-brand-300">{{ $t('vibes.title') }}</h2>
+      <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-brand-300">{{ $t('skills.title') }}</h2>
       <div class="mt-6 flex items-center gap-10">
         <svg viewBox="0 0 120 120" class="h-40 w-40 shrink-0">
           <circle cx="60" cy="60" r="44" class="fill-none stroke-slate-800 stroke-[32]" />

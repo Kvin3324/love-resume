@@ -31,6 +31,13 @@
             @add="addReference"
             @remove="removeReference"
           />
+
+          <SkillsSection
+            :skills="form.coupleSkills"
+            :draft="skillDraft"
+            @add="addSkill"
+            @remove="removeSkill"
+          />
         </div>
 
         <aside class="space-y-6">
@@ -53,6 +60,7 @@ import ProfileFormSection from './components/ProfileFormSection.vue';
 import TraitsSection from './components/TraitsSection.vue';
 import RelationshipsSection from './components/RelationshipsSection.vue';
 import ReferencesSection from './components/ReferencesSection.vue';
+import SkillsSection from './components/SkillsSection.vue';
 import ResumePreview from './components/ResumePreview.vue';
 import PrivacyLegendSection from './components/PrivacyLegendSection.vue';
 import VibesChartSection from './components/VibesChartSection.vue';
@@ -65,6 +73,7 @@ const {
   newValue,
   relationshipDraft,
   referenceDraft,
+  skillDraft,
   addTrait,
   addValue,
   removeTrait,
@@ -73,6 +82,8 @@ const {
   removeRelationship,
   addReference,
   removeReference,
+  addSkill,
+  removeSkill,
   resetTraits,
   generatePdf,
   privacyLabel,

@@ -1,5 +1,5 @@
 <template>
-  <Panel :title="$t('vibes.title')">
+  <Panel :title="$t('skills.title')">
     <div class="flex items-center justify-center">
       <svg viewBox="0 0 120 120" class="h-40 w-40">
         <circle cx="60" cy="60" r="44" class="fill-none stroke-slate-800 stroke-[32]" />

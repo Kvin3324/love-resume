@@ -8,6 +8,9 @@
         </div>
         <h1 class="mt-3 text-4xl font-semibold text-white">{{ $t('app.title') }}</h1>
         <p class="mt-3 max-w-2xl text-slate-300 sm:text-lg">{{ $t('app.subtitle') }}</p>
+        <p class="mt-2 flex items-center gap-2 text-xs text-slate-500">
+          <span aria-hidden="true">✦</span>{{ $t('app.disclaimer') }}
+        </p>
       </div>
       <div>
         <BaseButton variant="primary" @click="$emit('generate-pdf')">{{ $t('app.exportCta') }}</BaseButton>
