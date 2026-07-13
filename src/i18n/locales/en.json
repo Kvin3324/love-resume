@@ -1,0 +1,90 @@
+{
+  "app": {
+    "brand": "LoveResume",
+    "title": "Your love resume, premium edition.",
+    "subtitle": "Tell your dating story, share your values, and generate a fun PDF without storing anything.",
+    "exportCta": "Export as PDF"
+  },
+  "privacy": {
+    "public": "Public",
+    "semiPrivate": "Semi-private",
+    "linkOnly": "Link only",
+    "unknown": "Unknown"
+  },
+  "profile": {
+    "title": "Form",
+    "subtitle": "All data stays temporary, nothing is stored in a database.",
+    "privacyBadge": "Privacy: {{label}}",
+    "fullNameLabel": "Full name",
+    "fullNamePlaceholder": "Your first + last name",
+    "roleLabel": "Desired role",
+    "rolePlaceholder": "E.g. Loyal partner, sidekick, adventurer",
+    "bioLabel": "Serious but fun bio",
+    "bioPlaceholder": "Write what makes you unique in love.",
+    "privacyLabel": "Privacy"
+  },
+  "traits": {
+    "title": "Traits & expectations",
+    "subtitle": "Enter your personality traits and what matters most.",
+    "reset": "Reset",
+    "personality": "Personality",
+    "addTraitPlaceholder": "Add a trait",
+    "values": "Values",
+    "addValuePlaceholder": "Add a value",
+    "remove": "Remove {{value}}"
+  },
+  "relationships": {
+    "title": "Dating history",
+    "subtitle": "Past relationships, duration and reason for the breakup.",
+    "add": "Add a relationship",
+    "exPartner": "Ex-partner",
+    "remove": "Remove",
+    "durationLabel": "Duration: {{value}}",
+    "reasonLabel": "Reason: {{value}}",
+    "partnerNamePlaceholder": "Partner's name",
+    "durationPlaceholder": "Duration",
+    "reasonPlaceholder": "Reason for the breakup",
+    "defaultDuration": "N/A",
+    "defaultReason": "Not specified"
+  },
+  "references": {
+    "title": "References & reviews",
+    "subtitle": "Reviews from exes, fun or honest.",
+    "add": "Add a review",
+    "remove": "Remove",
+    "namePlaceholder": "Name",
+    "relationPlaceholder": "Relation",
+    "quotePlaceholder": "Quote",
+    "defaultRelation": "Ex",
+    "typeFun": "Fun",
+    "typeHonest": "Honest",
+    "typePoetic": "Poetic"
+  },
+  "preview": {
+    "title": "LoveResume preview",
+    "subtitle": "Your dating resume displayed as a premium profile page.",
+    "defaultName": "Your Name",
+    "defaultRole": "Desired partner",
+    "whoIAm": "Who I am",
+    "defaultBio": "Tell us about yourself here...",
+    "personality": "Traits",
+    "values": "Values",
+    "skills": "Couple skills",
+    "journey": "History",
+    "reviews": "Reviews"
+  },
+  "privacyLegend": {
+    "title": "Visual & privacy",
+    "subtitle": "No database storage. Data is temporary and only exportable via PDF.",
+    "publicStatus": "Visible",
+    "semiPrivateStatus": "Filtered",
+    "linkOnlyStatus": "By invitation"
+  },
+  "vibes": {
+    "title": "Vibes chart"
+  },
+  "switcher": {
+    "fr": "FR",
+    "en": "EN"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "app": {
+    "brand": "LoveResume",
+    "title": "Ton CV love, version premium.",
+    "subtitle": "Raconte ton parcours sentimental, partage tes valeurs, et génère un PDF fun sans rien stocker.",
+    "exportCta": "Exporter en PDF"
+  },
+  "privacy": {
+    "public": "Public",
+    "semiPrivate": "Semi-privé",
+    "linkOnly": "Partage par lien",
+    "unknown": "Inconnu"
+  },
+  "profile": {
+    "title": "Formulaire",
+    "subtitle": "Toutes les données restent temporaires, rien n’est stocké en base.",
+    "privacyBadge": "Confidentialité: {{label}}",
+    "fullNameLabel": "Nom complet",
+    "fullNamePlaceholder": "Ton prénom + nom",
+    "roleLabel": "Poste recherché",
+    "rolePlaceholder": "Ex: Partenaire loyal·e, complice, aventurier·ère",
+    "bioLabel": "Bio sérieuse mais fun",
+    "bioPlaceholder": "Écris ce qui te rend unique en amour.",
+    "privacyLabel": "Confidentialité"
+  },
+  "traits": {
+    "title": "Traits & attentes",
+    "subtitle": "Entre tes traits de personnalité et ce qui compte le plus.",
+    "reset": "Réinitialiser",
+    "personality": "Personnalité",
+    "addTraitPlaceholder": "Ajouter un trait",
+    "values": "Valeurs",
+    "addValuePlaceholder": "Ajouter une valeur",
+    "remove": "Supprimer {{value}}"
+  },
+  "relationships": {
+    "title": "Parcours sentimental",
+    "subtitle": "Relations passées, durée et raison de la fin.",
+    "add": "Ajouter une relation",
+    "exPartner": "Ex-partenaire",
+    "remove": "Supprimer",
+    "durationLabel": "Durée: {{value}}",
+    "reasonLabel": "Motif: {{value}}",
+    "partnerNamePlaceholder": "Nom du partenaire",
+    "durationPlaceholder": "Durée",
+    "reasonPlaceholder": "Raison de la fin",
+    "defaultDuration": "N/A",
+    "defaultReason": "Pas précisé"
+  },
+  "references": {
+    "title": "Références & avis",
+    "subtitle": "Avis d’ex, fun ou honnêtes.",
+    "add": "Ajouter un avis",
+    "remove": "Supprimer",
+    "namePlaceholder": "Nom",
+    "relationPlaceholder": "Relation",
+    "quotePlaceholder": "Citation",
+    "defaultRelation": "Ex",
+    "typeFun": "Fun",
+    "typeHonest": "Honnête",
+    "typePoetic": "Poétique"
+  },
+  "preview": {
+    "title": "Aperçu LoveResume",
+    "subtitle": "Ton CV sentimental affiché comme une page de profil premium.",
+    "defaultName": "Ton Nom",
+    "defaultRole": "Partenaire recherché",
+    "whoIAm": "Qui je suis",
+    "defaultBio": "Raconte-toi ici...",
+    "personality": "Perso",
+    "values": "Valeurs",
+    "skills": "Skills en couple",
+    "journey": "Parcours",
+    "reviews": "Avis"
+  },
+  "privacyLegend": {
+    "title": "Visuel & confidentialité",
+    "subtitle": "Aucun stockage en base. Les données sont temporaires et exportables uniquement via PDF.",
+    "publicStatus": "Visible",
+    "semiPrivateStatus": "Filtré",
+    "linkOnlyStatus": "Sur invitation"
+  },
+  "vibes": {
+    "title": "Vibes"
+  },
+  "switcher": {
+    "fr": "FR",
+    "en": "EN"
+  }
+}

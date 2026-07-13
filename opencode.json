@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "po": {
+      "description": "Product Owner expert — backlog, prioritization, roadmap, user stories, KPIs, stakeholder management for the training platform.",
+      "model": "anthropic/claude-sonnet-4.6",
+      "mode": "subagent"
+    },
+    "react-dev": {
+      "description": "Senior React/TypeScript developer — clean code, shadcn/ui, Redux Toolkit, Tailwind, accessible, performant, trending UI/UX.",
+      "mode": "subagent"
+    }
+  }
+}
