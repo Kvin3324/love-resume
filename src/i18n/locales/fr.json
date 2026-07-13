@@ -92,5 +92,20 @@
   "switcher": {
     "fr": "FR",
     "en": "EN"
+  },
+  "seed": {
+    "traits": ["Empathique", "Authentique", "Curieux"],
+    "values": ["Confiance", "Humour", "Honnêteté"],
+    "relationship": {
+      "partnerName": "Sophie",
+      "duration": "1 an 4 mois",
+      "reason": "Distance"
+    },
+    "reference": {
+      "name": "Lina",
+      "relation": "Ex",
+      "quote": "Toujours là pour écouter et rigoler, même quand la vie est plus sérieuse."
+    },
+    "skills": ["Communication", "Écoute", "Loyauté", "Spontanéité"]
   }
 }

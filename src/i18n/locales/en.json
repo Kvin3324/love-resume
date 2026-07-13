@@ -92,5 +92,20 @@
   "switcher": {
     "fr": "FR",
     "en": "EN"
+  },
+  "seed": {
+    "traits": ["Empathetic", "Authentic", "Curious"],
+    "values": ["Trust", "Humor", "Honesty"],
+    "relationship": {
+      "partnerName": "Sophie",
+      "duration": "1 year 4 months",
+      "reason": "Distance"
+    },
+    "reference": {
+      "name": "Lina",
+      "relation": "Ex",
+      "quote": "Always there to listen and laugh, even when life gets more serious."
+    },
+    "skills": ["Communication", "Listening", "Loyalty", "Spontaneity"]
   }
 }

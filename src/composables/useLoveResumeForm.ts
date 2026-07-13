@@ -1,46 +1,124 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, onScopeDispose, reactive, ref } from 'vue';
 import { useTranslation } from 'i18next-vue';
 import html2pdf from 'html2pdf.js';
+import { i18next } from '../i18n';
 import type { LoveResumeForm, RelationshipEntry, ReferenceEntry, SkillEntry } from '../types';
 
 const randomId = (): string => crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2, 10);
 
+const SKILL_LEVELS = [8, 9, 9, 7];
+
+const arraysEqual = (a: string[], b: string[]): boolean =>
+  a.length === b.length && a.every((item, index) => item === b[index]);
+
 export function useLoveResumeForm() {
   const { t } = useTranslation();
+
+  // Localized example data — rebuilt for the active language.
+  const buildSeed = () => ({
+    traits: t('seed.traits', { returnObjects: true }) as unknown as string[],
+    values: t('seed.values', { returnObjects: true }) as unknown as string[],
+    relationship: {
+      partnerName: t('seed.relationship.partnerName'),
+      duration: t('seed.relationship.duration'),
+      reason: t('seed.relationship.reason')
+    },
+    reference: {
+      name: t('seed.reference.name'),
+      relation: t('seed.reference.relation'),
+      quote: t('seed.reference.quote')
+    },
+    skills: t('seed.skills', { returnObjects: true }) as unknown as string[]
+  });
+
+  let seed = buildSeed();
+
+  // Stable ids so we can retranslate the seed entries later without losing edits.
+  const relationshipSeedId = randomId();
+  const referenceSeedId = randomId();
+  const skillSeedIds = seed.skills.map(() => randomId());
 
   const form = reactive<LoveResumeForm>({
     fullName: '',
     role: '',
     bio: '',
-    personalityTraits: ['Empathique', 'Authentique', 'Curieux'],
-    values: ['Confiance', 'Humour', 'Honnêteté'],
+    personalityTraits: [...seed.traits],
+    values: [...seed.values],
     privacy: 'link-only',
     relationships: [
       {
-        id: randomId(),
-        partnerName: 'Sophie',
+        id: relationshipSeedId,
+        partnerName: seed.relationship.partnerName,
         startDate: '2022-02',
         endDate: '2023-06',
-        duration: '1 an 4 mois',
-        reason: 'Distance'
+        duration: seed.relationship.duration,
+        reason: seed.relationship.reason
       }
     ],
     references: [
       {
-        id: randomId(),
-        name: 'Lina',
-        relation: 'Ex',
-        quote: 'Toujours là pour écouter et rigoler, même quand la vie est plus sérieuse.',
+        id: referenceSeedId,
+        name: seed.reference.name,
+        relation: seed.reference.relation,
+        quote: seed.reference.quote,
         type: 'fun'
       }
     ],
-    coupleSkills: [
-      { id: randomId(), name: 'Communication', level: 8 },
-      { id: randomId(), name: 'Écoute', level: 9 },
-      { id: randomId(), name: 'Loyauté', level: 9 },
-      { id: randomId(), name: 'Spontanéité', level: 7 }
-    ]
+    coupleSkills: seed.skills.map((name, index) => ({
+      id: skillSeedIds[index],
+      name,
+      level: SKILL_LEVELS[index] ?? 5
+    }))
   });
+
+  // When the language changes, retranslate example entries the user hasn't edited.
+  const retranslateSeed = (): void => {
+    const prev = seed;
+    const next = buildSeed();
+
+    if (arraysEqual(form.personalityTraits, prev.traits)) {
+      form.personalityTraits = [...next.traits];
+    }
+    if (arraysEqual(form.values, prev.values)) {
+      form.values = [...next.values];
+    }
+
+    const relationship = form.relationships.find((entry) => entry.id === relationshipSeedId);
+    if (
+      relationship &&
+      relationship.partnerName === prev.relationship.partnerName &&
+      relationship.duration === prev.relationship.duration &&
+      relationship.reason === prev.relationship.reason
+    ) {
+      relationship.partnerName = next.relationship.partnerName;
+      relationship.duration = next.relationship.duration;
+      relationship.reason = next.relationship.reason;
+    }
+
+    const reference = form.references.find((entry) => entry.id === referenceSeedId);
+    if (
+      reference &&
+      reference.name === prev.reference.name &&
+      reference.relation === prev.reference.relation &&
+      reference.quote === prev.reference.quote
+    ) {
+      reference.name = next.reference.name;
+      reference.relation = next.reference.relation;
+      reference.quote = next.reference.quote;
+    }
+
+    skillSeedIds.forEach((id, index) => {
+      const skill = form.coupleSkills.find((entry) => entry.id === id);
+      if (skill && skill.name === prev.skills[index]) {
+        skill.name = next.skills[index];
+      }
+    });
+
+    seed = next;
+  };
+
+  i18next.on('languageChanged', retranslateSeed);
+  onScopeDispose(() => i18next.off('languageChanged', retranslateSeed));
 
   const newTrait = ref('');
   const newValue = ref('');
