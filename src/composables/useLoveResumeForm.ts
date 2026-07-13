@@ -147,15 +147,15 @@ export function useLoveResumeForm() {
   };
 
   const generatePdf = (): void => {
-    const element = document.querySelector('#pdf-export-root');
+    const element = document.querySelector<HTMLElement>('#pdf-export-root');
     if (!element) return;
 
     const opt = {
       margin: 0,
       filename: `love-resume-${form.fullName || 'cv'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
+      image: { type: 'jpeg' as const, quality: 0.98 },
       html2canvas: { scale: 2, backgroundColor: '#020617', windowWidth: 794 },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
+      jsPDF: { orientation: 'portrait' as const, unit: 'mm' as const, format: 'a4' },
       pagebreak: { mode: ['avoid-all', 'css'] }
     };
 
