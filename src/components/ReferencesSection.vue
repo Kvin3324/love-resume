@@ -8,7 +8,9 @@
         v-for="refEntry in references"
         :key="refEntry.id"
         :entry="refEntry"
+        :type-options="typeOptions"
         @remove="$emit('remove', refEntry.id)"
+        @update="$emit('update', refEntry.id, $event)"
       />
     </div>
     <div class="mt-6 grid gap-4 rounded-3xl border border-dashed border-slate-700 bg-slate-950/90 p-5">
@@ -27,7 +29,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useTranslation } from 'i18next-vue';
-import type { ReferenceEntry } from '../types';
+import type { ReferenceDraft, ReferenceEntry } from '../types';
 import Panel from './ui/Panel.vue';
 import BaseButton from './ui/BaseButton.vue';
 import BaseInput from './ui/BaseInput.vue';
@@ -36,11 +38,12 @@ import ReferenceCard from './ReferenceCard.vue';
 
 defineProps<{
   references: ReferenceEntry[];
-  draft: Pick<ReferenceEntry, 'name' | 'relation' | 'quote' | 'type'>;
+  draft: ReferenceDraft;
 }>();
 
 defineEmits<{
   add: [];
+  update: [id: string, draft: ReferenceDraft];
   remove: [id: string];
 }>();
 

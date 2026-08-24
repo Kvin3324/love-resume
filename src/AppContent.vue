@@ -22,6 +22,7 @@
             :relationships="form.relationships"
             :draft="relationshipDraft"
             @add="addRelationship"
+            @update="updateRelationship"
             @remove="removeRelationship"
           />
 
@@ -29,6 +30,7 @@
             :references="form.references"
             :draft="referenceDraft"
             @add="addReference"
+            @update="updateReference"
             @remove="removeReference"
           />
 
@@ -79,8 +81,10 @@ const {
   removeTrait,
   removeValue,
   addRelationship,
+  updateRelationship,
   removeRelationship,
   addReference,
+  updateReference,
   removeReference,
   addSkill,
   removeSkill,

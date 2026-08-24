@@ -9,6 +9,7 @@
         :key="entry.id"
         :entry="entry"
         @remove="$emit('remove', entry.id)"
+        @update="$emit('update', entry.id, $event)"
       />
     </div>
     <div class="mt-6 grid gap-4 rounded-3xl border border-dashed border-slate-700 bg-slate-950/90 p-5">
@@ -26,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RelationshipEntry } from '../types';
+import type { RelationshipDraft, RelationshipEntry } from '../types';
 import Panel from './ui/Panel.vue';
 import BaseButton from './ui/BaseButton.vue';
 import BaseInput from './ui/BaseInput.vue';
@@ -34,11 +35,12 @@ import RelationshipCard from './RelationshipCard.vue';
 
 defineProps<{
   relationships: RelationshipEntry[];
-  draft: Pick<RelationshipEntry, 'partnerName' | 'startDate' | 'endDate' | 'duration' | 'reason'>;
+  draft: RelationshipDraft;
 }>();
 
 defineEmits<{
   add: [];
+  update: [id: string, draft: RelationshipDraft];
   remove: [id: string];
 }>();
 </script>

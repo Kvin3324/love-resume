@@ -17,6 +17,13 @@ export interface ReferenceEntry {
   type: 'fun' | 'honest' | 'poetic';
 }
 
+export type RelationshipDraft = Pick<
+  RelationshipEntry,
+  'partnerName' | 'startDate' | 'endDate' | 'duration' | 'reason'
+>;
+
+export type ReferenceDraft = Pick<ReferenceEntry, 'name' | 'relation' | 'quote' | 'type'>;
+
 export interface SkillEntry {
   id: string;
   name: string;

@@ -2,11 +2,17 @@ import { computed, onScopeDispose, reactive, ref } from 'vue';
 import { useTranslation } from 'i18next-vue';
 import html2pdf from 'html2pdf.js';
 import { i18next } from '../i18n';
-import type { LoveResumeForm, RelationshipEntry, ReferenceEntry, SkillEntry } from '../types';
+import type {
+  LoveResumeForm,
+  ReferenceDraft,
+  RelationshipDraft,
+  SkillEntry
+} from '../types';
 
 const randomId = (): string => crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2, 10);
 
 const SKILL_LEVELS = [8, 9, 9, 7];
+const PDF_BACKDROP = '#020617';
 
 const arraysEqual = (a: string[], b: string[]): boolean =>
   a.length === b.length && a.every((item, index) => item === b[index]);
@@ -123,7 +129,7 @@ export function useLoveResumeForm() {
   const newTrait = ref('');
   const newValue = ref('');
 
-  const relationshipDraft = reactive<Pick<RelationshipEntry, 'partnerName' | 'startDate' | 'endDate' | 'duration' | 'reason'>>({
+  const relationshipDraft = reactive<RelationshipDraft>({
     partnerName: '',
     startDate: '',
     endDate: '',
@@ -131,7 +137,7 @@ export function useLoveResumeForm() {
     reason: ''
   });
 
-  const referenceDraft = reactive<Pick<ReferenceEntry, 'name' | 'relation' | 'quote' | 'type'>>({
+  const referenceDraft = reactive<ReferenceDraft>({
     name: '',
     relation: '',
     quote: '',
@@ -189,6 +195,20 @@ export function useLoveResumeForm() {
     relationshipDraft.reason = '';
   };
 
+  const updateRelationship = (id: string, patch: RelationshipDraft): void => {
+    const entry = form.relationships.find((item) => item.id === id);
+    const partnerName = patch.partnerName.trim();
+    if (!entry || !partnerName) {
+      return;
+    }
+
+    entry.partnerName = partnerName;
+    entry.startDate = patch.startDate;
+    entry.endDate = patch.endDate;
+    entry.duration = patch.duration.trim() || t('relationships.defaultDuration');
+    entry.reason = patch.reason.trim() || t('relationships.defaultReason');
+  };
+
   const removeRelationship = (id: string): void => {
     const index = form.relationships.findIndex((entry) => entry.id === id);
     if (index !== -1) {
@@ -215,6 +235,20 @@ export function useLoveResumeForm() {
     referenceDraft.relation = '';
     referenceDraft.quote = '';
     referenceDraft.type = 'fun';
+  };
+
+  const updateReference = (id: string, patch: ReferenceDraft): void => {
+    const entry = form.references.find((item) => item.id === id);
+    const name = patch.name.trim();
+    const quote = patch.quote.trim();
+    if (!entry || !name || !quote) {
+      return;
+    }
+
+    entry.name = name;
+    entry.relation = patch.relation.trim() || t('references.defaultRelation');
+    entry.quote = quote;
+    entry.type = patch.type;
   };
 
   const removeReference = (id: string): void => {
@@ -252,7 +286,30 @@ export function useLoveResumeForm() {
     form.values = [];
   };
 
-  const generatePdf = (): void => {
+  const padCanvasToFullPages = (canvas: HTMLCanvasElement, pageRatio: number): HTMLCanvasElement => {
+    const pageHeight = Math.floor(canvas.width * pageRatio);
+    const fullHeight = Math.max(1, Math.ceil(canvas.height / pageHeight)) * pageHeight;
+    if (fullHeight === canvas.height) {
+      return canvas;
+    }
+
+    const padded = document.createElement('canvas');
+    padded.width = canvas.width;
+    padded.height = fullHeight;
+
+    const context = padded.getContext('2d');
+    if (!context) {
+      return canvas;
+    }
+
+    context.fillStyle = PDF_BACKDROP;
+    context.fillRect(0, 0, padded.width, padded.height);
+    context.drawImage(canvas, 0, 0);
+
+    return padded;
+  };
+
+  const generatePdf = async (): Promise<void> => {
     const element = document.querySelector<HTMLElement>('#pdf-export-root');
     if (!element) return;
 
@@ -260,12 +317,17 @@ export function useLoveResumeForm() {
       margin: 0,
       filename: `love-resume-${form.fullName || 'cv'}.pdf`,
       image: { type: 'jpeg' as const, quality: 0.98 },
-      html2canvas: { scale: 2, backgroundColor: '#020617', windowWidth: 794 },
+      html2canvas: { scale: 2, backgroundColor: PDF_BACKDROP, windowWidth: 794 },
       jsPDF: { orientation: 'portrait' as const, unit: 'mm' as const, format: 'a4' },
       pagebreak: { mode: ['avoid-all', 'css'] }
     };
 
-    html2pdf().set(opt).from(element).save();
+    const rendered = html2pdf().set(opt).from(element).toCanvas();
+    const canvas = (await rendered.get('canvas')) as HTMLCanvasElement;
+    const pageSize = (await rendered.get('pageSize')) as { inner: { ratio: number } };
+    const padded = padCanvasToFullPages(canvas, pageSize.inner.ratio);
+
+    await rendered.set({ canvas: padded } as never).toPdf().save();
   };
 
   const privacyLabel = computed<string>(() => {
@@ -314,8 +376,10 @@ export function useLoveResumeForm() {
     removeTrait,
     removeValue,
     addRelationship,
+    updateRelationship,
     removeRelationship,
     addReference,
+    updateReference,
     removeReference,
     addSkill,
     removeSkill,

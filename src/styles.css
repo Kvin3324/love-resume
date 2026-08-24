@@ -46,3 +46,9 @@ textarea:focus::placeholder {
   break-inside: avoid;
   page-break-inside: avoid;
 }
+
+img[src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'] {
+  display: inline !important;
+  position: relative !important;
+  top: -1px !important;
+}

@@ -6,6 +6,11 @@
     "disclaimer": "Reste courtois·e envers les autres et ne partage aucune coordonnée personnelle.",
     "exportCta": "Exporter en PDF"
   },
+  "common": {
+    "edit": "Modifier",
+    "save": "Enregistrer",
+    "cancel": "Annuler"
+  },
   "privacy": {
     "public": "Public",
     "semiPrivate": "Semi-privé",
@@ -72,7 +77,8 @@
     "values": "Valeurs",
     "skills": "Skills en couple",
     "journey": "Parcours",
-    "reviews": "Avis"
+    "reviews": "Avis",
+    "createYours": "Crée le tien sur {{url}}"
   },
   "privacyLegend": {
     "title": "Visuel & confidentialité",

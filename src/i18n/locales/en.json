@@ -6,6 +6,11 @@
     "disclaimer": "Stay courteous toward others and never share personal contact details.",
     "exportCta": "Export as PDF"
   },
+  "common": {
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
   "privacy": {
     "public": "Public",
     "semiPrivate": "Semi-private",
@@ -72,7 +77,8 @@
     "values": "Values",
     "skills": "Couple skills",
     "journey": "History",
-    "reviews": "Reviews"
+    "reviews": "Reviews",
+    "createYours": "Create yours at {{url}}"
   },
   "privacyLegend": {
     "title": "Visual & privacy",
