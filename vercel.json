@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/tiktok", "destination": "/" },
+    { "source": "/insta", "destination": "/" },
+    { "source": "/yt", "destination": "/" }
+  ]
+}

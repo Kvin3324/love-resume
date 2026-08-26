@@ -1,6 +1,5 @@
 import { computed, onScopeDispose, reactive, ref } from 'vue';
 import { useTranslation } from 'i18next-vue';
-import html2pdf from 'html2pdf.js';
 import { i18next } from '../i18n';
 import type {
   LoveResumeForm,
@@ -312,6 +311,8 @@ export function useLoveResumeForm() {
   const generatePdf = async (): Promise<void> => {
     const element = document.querySelector<HTMLElement>('#pdf-export-root');
     if (!element) return;
+
+    const { default: html2pdf } = await import('html2pdf.js');
 
     const opt = {
       margin: 0,
