@@ -1,48 +1,96 @@
 <template>
-  <div class="rounded-3xl border border-slate-700 bg-slate-950/90 p-4">
-    <div class="flex items-center justify-between gap-3">
-      <div>
-        <p class="text-sm font-semibold text-white">{{ entry.name }}</p>
-        <p class="text-sm text-slate-400">{{ entry.relation }} • {{ typeLabel }}</p>
+  <div class="border-t border-ink-200 pt-5 first:border-t-0 first:pt-0">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+      <div class="min-w-0">
+        <h3 class="font-display text-xl leading-tight text-ink-900">{{ entry.name }}</h3>
+        <p class="mt-1 text-sm text-ink-500">
+          <template v-if="entry.relation">{{ entry.relation }} · </template>{{ typeLabel }}
+        </p>
       </div>
-      <div class="flex items-center gap-4">
+      <div class="flex flex-wrap items-center gap-1">
         <template v-if="isEditing">
-          <BaseButton variant="text" @click="save">{{ $t('common.save') }}</BaseButton>
-          <BaseButton variant="text" @click="cancel">{{ $t('common.cancel') }}</BaseButton>
+          <BaseButton
+            variant="text"
+            size="sm"
+            :aria-label="`${$t('common.save')} ${entry.name}`"
+            @click="save"
+          >
+            {{ $t('common.save') }}
+          </BaseButton>
+          <BaseButton
+            variant="text"
+            size="sm"
+            :aria-label="`${$t('common.cancel')} ${entry.name}`"
+            @click="cancel"
+          >
+            {{ $t('common.cancel') }}
+          </BaseButton>
         </template>
         <template v-else>
-          <BaseButton variant="text" @click="startEditing">{{ $t('common.edit') }}</BaseButton>
-          <BaseButton variant="text" @click="$emit('remove')">{{ $t('references.remove') }}</BaseButton>
+          <BaseButton
+            variant="text"
+            size="sm"
+            :aria-label="`${$t('common.edit')} ${entry.name}`"
+            @click="startEditing"
+          >
+            {{ $t('common.edit') }}
+          </BaseButton>
+          <BaseButton
+            variant="text"
+            size="sm"
+            :aria-label="`${$t('references.remove')} ${entry.name}`"
+            @click="$emit('remove')"
+          >
+            {{ $t('references.remove') }}
+          </BaseButton>
         </template>
       </div>
     </div>
 
-    <p v-if="!isEditing" class="mt-3 text-slate-300">“{{ entry.quote }}”</p>
+    <blockquote v-if="!isEditing" class="mt-3 border-l border-brand-300 pl-4 text-ink-700">
+      <p class="font-display text-lg leading-relaxed">“{{ entry.quote }}”</p>
+    </blockquote>
 
-    <div v-else class="mt-3 grid gap-2">
-      <div class="grid gap-2 sm:grid-cols-2">
+    <div v-else class="mt-4 grid gap-3">
+      <div class="grid gap-3 sm:grid-cols-2">
         <BaseInput
           v-model="draft.name"
+          :label="$t('references.nameLabel')"
           :placeholder="$t('references.namePlaceholder')"
           :grid="false"
           tone="draft"
+          required
+          :maxlength="40"
           @enter="save"
         />
         <BaseInput
           v-model="draft.relation"
+          :label="$t('references.relationLabel')"
           :placeholder="$t('references.relationPlaceholder')"
           :grid="false"
           tone="draft"
+          :maxlength="60"
           @enter="save"
         />
       </div>
-      <div class="grid gap-2 sm:grid-cols-2">
-        <BaseSelect v-model="draft.type" :options="typeOptions" tone="draft" />
-        <BaseInput
-          v-model="draft.quote"
-          :placeholder="$t('references.quotePlaceholder')"
+      <div class="grid gap-3 sm:grid-cols-[10rem_1fr] sm:items-start">
+        <BaseSelect
+          v-model="draft.type"
+          class="w-40 max-w-full"
+          :label="$t('references.typeLabel')"
+          :options="typeOptions"
           :grid="false"
           tone="draft"
+        />
+        <BaseInput
+          v-model="draft.quote"
+          :label="$t('references.quoteLabel')"
+          :placeholder="$t('references.quotePlaceholder')"
+          :hint="$t('references.quoteHint')"
+          :grid="false"
+          tone="draft"
+          sanitize
+          :maxlength="180"
           @enter="save"
         />
       </div>
@@ -89,10 +137,7 @@ const startEditing = (): void => {
 };
 
 const save = (): void => {
-  if (!draft.name.trim() || !draft.quote.trim()) {
-    return;
-  }
-
+  if (!draft.name.trim() || !draft.quote.trim()) return;
   emit('update', { ...draft });
   isEditing.value = false;
 };

@@ -1,9 +1,62 @@
 <template>
   <Panel :title="$t('relationships.title')" :subtitle="$t('relationships.subtitle')">
-    <template #actions>
-      <BaseButton size="sm" @click="$emit('add')">{{ $t('relationships.add') }}</BaseButton>
-    </template>
-    <div class="space-y-4">
+    <div class="border-b border-ink-200 pb-6">
+      <div>
+        <h3 class="font-display text-lg text-ink-900">{{ $t('relationships.draftTitle') }}</h3>
+        <p class="mt-1 text-pretty text-sm leading-relaxed text-ink-500">{{ $t('relationships.draftHint') }}</p>
+      </div>
+      <div class="mt-4 grid gap-3 sm:grid-cols-3">
+        <BaseInput
+          v-model="draft.partnerName"
+          :label="$t('relationships.partnerNameLabel')"
+          :placeholder="$t('relationships.partnerNamePlaceholder')"
+          :grid="false"
+          tone="draft"
+          required
+          :maxlength="40"
+          @enter="$emit('add')"
+        />
+        <BaseInput
+          v-model="draft.startDate"
+          type="month"
+          :label="$t('relationships.startDateLabel')"
+          :grid="false"
+          tone="draft"
+        />
+        <BaseInput
+          v-model="draft.endDate"
+          type="month"
+          :label="$t('relationships.endDateLabel')"
+          :grid="false"
+          tone="draft"
+        />
+      </div>
+      <div class="mt-3 grid gap-3 sm:grid-cols-2">
+        <BaseInput
+          v-model="draft.duration"
+          :label="$t('relationships.durationLabelInput')"
+          :placeholder="$t('relationships.durationPlaceholder')"
+          :grid="false"
+          tone="draft"
+          :maxlength="40"
+          @enter="$emit('add')"
+        />
+        <BaseInput
+          v-model="draft.reason"
+          :label="$t('relationships.reasonLabelInput')"
+          :placeholder="$t('relationships.reasonPlaceholder')"
+          :grid="false"
+          tone="draft"
+          :maxlength="100"
+          @enter="$emit('add')"
+        />
+      </div>
+      <div class="mt-4">
+        <BaseButton :disabled="!canAdd" @click="$emit('add')">{{ $t('relationships.add') }}</BaseButton>
+      </div>
+    </div>
+
+    <div v-if="relationships.length" class="mt-5 space-y-4">
       <RelationshipCard
         v-for="entry in relationships"
         :key="entry.id"
@@ -12,28 +65,19 @@
         @update="$emit('update', entry.id, $event)"
       />
     </div>
-    <div class="mt-6 grid gap-4 rounded-3xl border border-dashed border-slate-700 bg-slate-950/90 p-5">
-      <div class="grid gap-2 sm:grid-cols-3">
-        <BaseInput v-model="draft.partnerName" :placeholder="$t('relationships.partnerNamePlaceholder')" :grid="false" tone="draft" />
-        <BaseInput v-model="draft.startDate" type="month" :grid="false" tone="draft" />
-        <BaseInput v-model="draft.endDate" type="month" :grid="false" tone="draft" />
-      </div>
-      <div class="grid gap-2 sm:grid-cols-2">
-        <BaseInput v-model="draft.duration" :placeholder="$t('relationships.durationPlaceholder')" :grid="false" tone="draft" />
-        <BaseInput v-model="draft.reason" :placeholder="$t('relationships.reasonPlaceholder')" :grid="false" tone="draft" />
-      </div>
-    </div>
+    <p v-else class="mt-5 text-sm text-ink-500">{{ $t('relationships.empty') }}</p>
   </Panel>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { RelationshipDraft, RelationshipEntry } from '../types';
 import Panel from './ui/Panel.vue';
 import BaseButton from './ui/BaseButton.vue';
 import BaseInput from './ui/BaseInput.vue';
 import RelationshipCard from './RelationshipCard.vue';
 
-defineProps<{
+const props = defineProps<{
   relationships: RelationshipEntry[];
   draft: RelationshipDraft;
 }>();
@@ -43,4 +87,6 @@ defineEmits<{
   update: [id: string, draft: RelationshipDraft];
   remove: [id: string];
 }>();
+
+const canAdd = computed(() => Boolean(props.draft.partnerName.trim()));
 </script>

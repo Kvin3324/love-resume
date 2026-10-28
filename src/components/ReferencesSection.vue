@@ -1,9 +1,58 @@
 <template>
   <Panel :title="$t('references.title')" :subtitle="$t('references.subtitle')">
-    <template #actions>
-      <BaseButton size="sm" @click="$emit('add')">{{ $t('references.add') }}</BaseButton>
-    </template>
-    <div class="space-y-4">
+    <div class="border-b border-ink-200 pb-6">
+      <div>
+        <h3 class="font-display text-lg text-ink-900">{{ $t('references.draftTitle') }}</h3>
+        <p class="mt-1 text-pretty text-sm leading-relaxed text-ink-500">{{ $t('references.draftHint') }}</p>
+      </div>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2">
+        <BaseInput
+          v-model="draft.name"
+          :label="$t('references.nameLabel')"
+          :placeholder="$t('references.namePlaceholder')"
+          :grid="false"
+          tone="draft"
+          required
+          :maxlength="40"
+          @enter="$emit('add')"
+        />
+        <BaseInput
+          v-model="draft.relation"
+          :label="$t('references.relationLabel')"
+          :placeholder="$t('references.relationPlaceholder')"
+          :grid="false"
+          tone="draft"
+          :maxlength="60"
+          @enter="$emit('add')"
+        />
+      </div>
+      <div class="mt-3 grid gap-3 sm:grid-cols-[10rem_1fr] sm:items-start">
+        <BaseSelect
+          v-model="draft.type"
+          class="w-40 max-w-full"
+          :label="$t('references.typeLabel')"
+          :options="typeOptions"
+          :grid="false"
+          tone="draft"
+        />
+        <BaseInput
+          v-model="draft.quote"
+          :label="$t('references.quoteLabel')"
+          :placeholder="$t('references.quotePlaceholder')"
+          :hint="$t('references.quoteHint')"
+          :grid="false"
+          tone="draft"
+          sanitize
+          :maxlength="180"
+          @enter="$emit('add')"
+        />
+      </div>
+      <div class="mt-4">
+        <BaseButton :disabled="!canAdd" @click="$emit('add')">{{ $t('references.add') }}</BaseButton>
+      </div>
+    </div>
+
+    <div v-if="references.length" class="mt-5 space-y-4">
       <ReferenceCard
         v-for="refEntry in references"
         :key="refEntry.id"
@@ -13,16 +62,7 @@
         @update="$emit('update', refEntry.id, $event)"
       />
     </div>
-    <div class="mt-6 grid gap-4 rounded-3xl border border-dashed border-slate-700 bg-slate-950/90 p-5">
-      <div class="grid gap-2 sm:grid-cols-2">
-        <BaseInput v-model="draft.name" :placeholder="$t('references.namePlaceholder')" :grid="false" tone="draft" />
-        <BaseInput v-model="draft.relation" :placeholder="$t('references.relationPlaceholder')" :grid="false" tone="draft" />
-      </div>
-      <div class="grid gap-2 sm:grid-cols-2">
-        <BaseSelect v-model="draft.type" :options="typeOptions" tone="draft" />
-        <BaseInput v-model="draft.quote" :placeholder="$t('references.quotePlaceholder')" :grid="false" tone="draft" />
-      </div>
-    </div>
+    <p v-else class="mt-5 text-sm text-ink-500">{{ $t('references.empty') }}</p>
   </Panel>
 </template>
 
@@ -36,7 +76,7 @@ import BaseInput from './ui/BaseInput.vue';
 import BaseSelect, { type SelectOption } from './ui/BaseSelect.vue';
 import ReferenceCard from './ReferenceCard.vue';
 
-defineProps<{
+const props = defineProps<{
   references: ReferenceEntry[];
   draft: ReferenceDraft;
 }>();
@@ -48,6 +88,8 @@ defineEmits<{
 }>();
 
 const { t } = useTranslation();
+
+const canAdd = computed(() => Boolean(props.draft.name.trim() && props.draft.quote.trim()));
 
 const typeOptions = computed<SelectOption<ReferenceEntry['type']>[]>(() => [
   { value: 'fun', label: t('references.typeFun') },

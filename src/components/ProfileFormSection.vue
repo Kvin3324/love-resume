@@ -1,15 +1,41 @@
 <template>
   <Panel id="form-top" :title="$t('profile.title')" :subtitle="$t('profile.subtitle')">
     <template #actions>
-      <span class="shrink-0 whitespace-nowrap rounded-full bg-white/5 px-4 py-2 text-sm text-slate-300">
+      <span class="inline-flex items-center gap-2 rounded-full border border-ink-200 bg-paper px-3.5 py-2 text-xs font-semibold text-ink-600">
+        <span class="h-1.5 w-1.5 rounded-full bg-brand-500" aria-hidden="true"></span>
         {{ $t('profile.privacyBadge', { label: privacyLabel }) }}
       </span>
     </template>
-    <div class="grid gap-6">
-      <BaseInput v-model="form.fullName" :label="$t('profile.fullNameLabel')" :placeholder="$t('profile.fullNamePlaceholder')" />
-      <BaseInput v-model="form.role" :label="$t('profile.roleLabel')" :placeholder="$t('profile.rolePlaceholder')" />
-      <BaseTextarea v-model="form.bio" :label="$t('profile.bioLabel')" :placeholder="$t('profile.bioPlaceholder')" />
-      <BaseSelect v-model="form.privacy" :label="$t('profile.privacyLabel')" :options="privacyOptions" />
+    <div class="grid gap-5">
+      <BaseInput
+        v-model="form.fullName"
+        :label="$t('profile.fullNameLabel')"
+        :placeholder="$t('profile.fullNamePlaceholder')"
+        autocomplete="name"
+        required
+        :maxlength="80"
+      />
+      <BaseInput
+        v-model="form.role"
+        :label="$t('profile.roleLabel')"
+        :placeholder="$t('profile.rolePlaceholder')"
+        autocomplete="organization-title"
+        :maxlength="120"
+      />
+      <BaseTextarea
+        v-model="form.bio"
+        :label="$t('profile.bioLabel')"
+        :placeholder="$t('profile.bioPlaceholder')"
+        :hint="$t('profile.bioHint')"
+        :maxlength="700"
+        sanitize
+      />
+      <BaseSelect
+        v-model="form.privacy"
+        :label="$t('profile.privacyLabel')"
+        :hint="privacyHint"
+        :options="privacyOptions"
+      />
     </div>
   </Panel>
 </template>
@@ -23,16 +49,19 @@ import BaseInput from './ui/BaseInput.vue';
 import BaseTextarea from './ui/BaseTextarea.vue';
 import BaseSelect, { type SelectOption } from './ui/BaseSelect.vue';
 
-defineProps<{
+const props = defineProps<{
   form: LoveResumeForm;
   privacyLabel: string;
+  privacyNotice: string;
 }>();
 
 const { t } = useTranslation();
 
+const privacyHint = computed(() => `${props.privacyNotice} ${t('profile.privacyHint')}`);
+
 const privacyOptions = computed<SelectOption<PrivacyLevel>[]>(() => [
   { value: 'public', label: t('privacy.public') },
   { value: 'semi-private', label: t('privacy.semiPrivate') },
-  { value: 'link-only', label: t('privacy.linkOnly') }
+  { value: 'private', label: t('privacy.private') }
 ]);
 </script>

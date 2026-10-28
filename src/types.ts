@@ -1,4 +1,4 @@
-export type PrivacyLevel = 'public' | 'semi-private' | 'link-only';
+export type PrivacyLevel = 'public' | 'semi-private' | 'private';
 
 export interface RelationshipEntry {
   id: string;
