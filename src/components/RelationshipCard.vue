@@ -68,6 +68,7 @@
           :grid="false"
           tone="draft"
           required
+          sanitize
           :maxlength="40"
           @enter="save"
         />
@@ -93,6 +94,7 @@
           :placeholder="$t('relationships.durationPlaceholder')"
           :grid="false"
           tone="draft"
+          sanitize
           :maxlength="40"
           @enter="save"
         />
@@ -102,6 +104,7 @@
           :placeholder="$t('relationships.reasonPlaceholder')"
           :grid="false"
           tone="draft"
+          sanitize
           :maxlength="100"
           @enter="save"
         />

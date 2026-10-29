@@ -36,6 +36,7 @@
               :placeholder="$t('traits.addTraitPlaceholder')"
               :grid="false"
               tone="draft"
+              sanitize
               :maxlength="30"
               @enter="$emit('add-trait')"
             />
@@ -70,6 +71,7 @@
               :placeholder="$t('traits.addValuePlaceholder')"
               :grid="false"
               tone="draft"
+              sanitize
               :maxlength="30"
               @enter="$emit('add-value')"
             />

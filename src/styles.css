@@ -23,6 +23,14 @@
     text-rendering: optimizeLegibility;
   }
 
+  body > div[style*='visibility: hidden'][style*='white-space: nowrap'] {
+    line-height: normal !important;
+  }
+
+  body > div[style*='visibility: hidden'][style*='white-space: nowrap'] > img {
+    display: inline !important;
+  }
+
   ::selection {
     background: #eeb09b;
     color: #271d1a;

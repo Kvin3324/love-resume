@@ -3,13 +3,13 @@
     "brand": "LoveResume",
     "brandTagline": "Le CV qui met les sentiments au propre.",
     "title": "Un CV qui raconte ton cœur.",
-    "subtitle": "Ton parcours, tes forces et ta façon d’aimer, mis en page comme un vrai CV. Prêt à imprimer, sans compte.",
+    "subtitle": "Ton parcours, tes forces et ta façon d’aimer, mis en page comme un vrai CV. Prêt à télécharger, sans compte.",
     "disclaimer": "Reste bienveillant·e : ne partage aucune coordonnée personnelle.",
-    "exportCta": "Imprimer / Enregistrer en PDF",
-    "exportHint": "Ouvre la fenêtre d’impression : choisis « Enregistrer au format PDF ».",
+    "exportCta": "Télécharger le PDF",
+    "exportHint": "Le PDF se télécharge directement sur ton appareil.",
     "startCta": "Créer mon CV",
     "mobilePreview": "Voir l’aperçu",
-    "mobileDownload": "Enregistrer",
+    "mobileDownload": "Télécharger",
     "skipToForm": "Aller au formulaire"
   },
   "common": {
@@ -187,13 +187,12 @@
   },
   "export": {
     "loading": "Préparation…",
-    "success": "Fenêtre d’impression ouverte. Choisis « Enregistrer au format PDF ».",
-    "error": "Impossible d’ouvrir l’impression. Réessaie depuis ton navigateur.",
-    "nameRequired": "Ajoute ton nom avant d’imprimer le PDF.",
-    "exampleTitle": "Imprimer l’exemple ?",
+    "success": "PDF téléchargé.",
+    "error": "Impossible de générer le PDF. Réessaie.",
+    "nameRequired": "Ajoute ton nom avant de télécharger le PDF.",
+    "exampleTitle": "Télécharger l’exemple ?",
     "exampleBody": "C’est un exemple : remplace les prénoms et les détails par les tiens avant de le partager.",
-    "confirmExample": "Imprimer quand même",
-    "printHint": "Pense à vérifier le contenu avant d’imprimer."
+    "confirmExample": "Télécharger quand même"
   },
   "toast": {
     "traitAdded": "« {{value}} » ajouté.",

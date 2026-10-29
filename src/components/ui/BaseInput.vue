@@ -26,7 +26,7 @@
         "
         @input="scheduleSanitize"
         @blur="sanitizeNow"
-        @keyup.enter="$emit('enter', $event)"
+        @keyup.enter="handleEnter"
       />
       <p v-if="error" :id="hintId" class="text-xs font-medium text-brand-700">{{ error }}</p>
       <p v-else-if="hint" :id="hintId" class="text-pretty text-xs leading-relaxed text-ink-500">{{ hint }}</p>
@@ -64,7 +64,7 @@ const props = withDefaults(
   }
 );
 
-defineEmits<{ enter: [event: KeyboardEvent] }>();
+const emit = defineEmits<{ enter: [event: KeyboardEvent] }>();
 
 const id = useFieldId('input');
 const hintId = `${id}-hint`;
@@ -74,4 +74,9 @@ const rawModel = defineModel<string>({ default: '' });
 const { scheduleSanitize, sanitizeNow } = useProfanitySanitizer(rawModel, {
   enabled: () => props.sanitize
 });
+
+const handleEnter = (event: KeyboardEvent): void => {
+  sanitizeNow();
+  emit('enter', event);
+};
 </script>

@@ -13,6 +13,7 @@
         :placeholder="$t('profile.fullNamePlaceholder')"
         autocomplete="name"
         required
+        sanitize
         :maxlength="80"
       />
       <BaseInput
@@ -20,6 +21,7 @@
         :label="$t('profile.roleLabel')"
         :placeholder="$t('profile.rolePlaceholder')"
         autocomplete="organization-title"
+        sanitize
         :maxlength="120"
       />
       <BaseTextarea

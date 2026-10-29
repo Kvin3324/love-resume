@@ -13,6 +13,7 @@
           :grid="false"
           tone="draft"
           required
+          sanitize
           :maxlength="40"
           @enter="$emit('add')"
         />
@@ -22,6 +23,7 @@
           :placeholder="$t('references.relationPlaceholder')"
           :grid="false"
           tone="draft"
+          sanitize
           :maxlength="60"
           @enter="$emit('add')"
         />

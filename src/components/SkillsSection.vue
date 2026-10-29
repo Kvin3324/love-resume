@@ -12,6 +12,7 @@
           :placeholder="$t('skills.namePlaceholder')"
           :grid="false"
           tone="draft"
+          sanitize
           :maxlength="40"
           @enter="$emit('add')"
         />

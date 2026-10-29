@@ -13,6 +13,7 @@
           :grid="false"
           tone="draft"
           required
+          sanitize
           :maxlength="40"
           @enter="$emit('add')"
         />
@@ -38,6 +39,7 @@
           :placeholder="$t('relationships.durationPlaceholder')"
           :grid="false"
           tone="draft"
+          sanitize
           :maxlength="40"
           @enter="$emit('add')"
         />
@@ -47,6 +49,7 @@
           :placeholder="$t('relationships.reasonPlaceholder')"
           :grid="false"
           tone="draft"
+          sanitize
           :maxlength="100"
           @enter="$emit('add')"
         />

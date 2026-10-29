@@ -161,7 +161,7 @@
 
     <ConfirmDialog />
 
-    <PrintDocument
+    <PdfDocument
       :form="form"
       :relationships="visibleRelationships"
       :references="visibleReferences"
@@ -179,7 +179,7 @@ import SkillsSection from './components/SkillsSection.vue';
 import ResumePreview from './components/ResumePreview.vue';
 import PrivacyLegendSection from './components/PrivacyLegendSection.vue';
 import ConfirmDialog from './components/ConfirmDialog.vue';
-import PrintDocument from './components/PrintDocument.vue';
+import PdfDocument from './components/PdfDocument.vue';
 import BaseButton from './components/ui/BaseButton.vue';
 import { useLoveResumeForm } from './composables/useLoveResumeForm';
 

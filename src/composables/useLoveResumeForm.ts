@@ -2,6 +2,7 @@ import { computed, nextTick, onScopeDispose, reactive, ref, watch } from 'vue';
 import { useTranslation } from 'i18next-vue';
 import { pageview } from '@vercel/analytics';
 import { i18next } from '../i18n';
+import { censorText } from '../utils/profanityFilter';
 import { confirmAction } from './useConfirm';
 import type {
   LoveResumeForm,
@@ -13,6 +14,7 @@ import type {
 
 const STORAGE_KEY = 'loveresume:draft:v1';
 const STORAGE_VERSION = 2;
+const PDF_BACKGROUND = '#ffffff';
 const SAVE_DELAY = 500;
 const TOAST_DURATION = 3200;
 const TOAST_ACTION_DURATION = 6000;
@@ -134,6 +136,31 @@ const normalizeForm = (raw: unknown, stripLegacyDefaults = false): LoveResumeFor
   };
 };
 
+const censorForm = (form: LoveResumeForm): LoveResumeForm => ({
+  ...form,
+  fullName: censorText(form.fullName),
+  role: censorText(form.role),
+  bio: censorText(form.bio),
+  personalityTraits: form.personalityTraits.map(censorText),
+  values: form.values.map(censorText),
+  relationships: form.relationships.map((entry) => ({
+    ...entry,
+    partnerName: censorText(entry.partnerName),
+    duration: censorText(entry.duration),
+    reason: censorText(entry.reason)
+  })),
+  references: form.references.map((entry) => ({
+    ...entry,
+    name: censorText(entry.name),
+    relation: censorText(entry.relation),
+    quote: censorText(entry.quote)
+  })),
+  coupleSkills: form.coupleSkills.map((entry) => ({
+    ...entry,
+    name: censorText(entry.name)
+  }))
+});
+
 const hasMeaningfulContent = (form: LoveResumeForm): boolean =>
   Boolean(
     form.fullName.trim() ||
@@ -156,7 +183,7 @@ const loadStoredDraft = (): { form: LoveResumeForm; isExample: boolean } | null 
     const parsed = JSON.parse(raw) as { version?: unknown; form?: unknown; isExample?: unknown };
     const version = typeof parsed.version === 'number' ? parsed.version : 1;
     return {
-      form: normalizeForm(parsed.form, version < STORAGE_VERSION),
+      form: censorForm(normalizeForm(parsed.form, version < STORAGE_VERSION)),
       isExample: Boolean(parsed.isExample)
     };
   } catch {
@@ -174,6 +201,25 @@ const slugify = (value: string): string =>
 
 const arraysEqual = (a: string[], b: string[]): boolean =>
   a.length === b.length && a.every((item, index) => item === b[index]);
+
+const padCanvasToFullPages = (canvas: HTMLCanvasElement, pageRatio: number): HTMLCanvasElement => {
+  const pageHeight = Math.floor(canvas.width * pageRatio);
+  const fullHeight = Math.max(1, Math.ceil(canvas.height / pageHeight)) * pageHeight;
+  if (fullHeight === canvas.height) return canvas;
+
+  const padded = document.createElement('canvas');
+  padded.width = canvas.width;
+  padded.height = fullHeight;
+
+  const context = padded.getContext('2d');
+  if (!context) return canvas;
+
+  context.fillStyle = PDF_BACKGROUND;
+  context.fillRect(0, 0, padded.width, padded.height);
+  context.drawImage(canvas, 0, 0);
+
+  return padded;
+};
 
 export function useLoveResumeForm() {
   const { t } = useTranslation();
@@ -512,7 +558,7 @@ export function useLoveResumeForm() {
   });
 
   const addTrait = (): void => {
-    const trait = newTrait.value.trim();
+    const trait = censorText(newTrait.value.trim());
     if (trait && !form.personalityTraits.includes(trait)) {
       form.personalityTraits.push(trait);
       newTrait.value = '';
@@ -521,7 +567,7 @@ export function useLoveResumeForm() {
   };
 
   const addValue = (): void => {
-    const value = newValue.value.trim();
+    const value = censorText(newValue.value.trim());
     if (value && !form.values.includes(value)) {
       form.values.push(value);
       newValue.value = '';
@@ -550,7 +596,7 @@ export function useLoveResumeForm() {
   };
 
   const addRelationship = (): void => {
-    const partnerName = relationshipDraft.partnerName.trim();
+    const partnerName = censorText(relationshipDraft.partnerName.trim());
     if (!partnerName) return;
 
     form.relationships.push({
@@ -558,8 +604,8 @@ export function useLoveResumeForm() {
       partnerName,
       startDate: relationshipDraft.startDate,
       endDate: relationshipDraft.endDate,
-      duration: relationshipDraft.duration.trim(),
-      reason: relationshipDraft.reason.trim()
+      duration: censorText(relationshipDraft.duration.trim()),
+      reason: censorText(relationshipDraft.reason.trim())
     });
 
     relationshipDraft.partnerName = '';
@@ -572,14 +618,14 @@ export function useLoveResumeForm() {
 
   const updateRelationship = (id: string, patch: RelationshipDraft): void => {
     const entry = form.relationships.find((item) => item.id === id);
-    const partnerName = patch.partnerName.trim();
+    const partnerName = censorText(patch.partnerName.trim());
     if (!entry || !partnerName) return;
 
     entry.partnerName = partnerName;
     entry.startDate = patch.startDate;
     entry.endDate = patch.endDate;
-    entry.duration = patch.duration.trim();
-    entry.reason = patch.reason.trim();
+    entry.duration = censorText(patch.duration.trim());
+    entry.reason = censorText(patch.reason.trim());
     notify(t('toast.relationshipUpdated'));
   };
 
@@ -594,14 +640,14 @@ export function useLoveResumeForm() {
   };
 
   const addReference = (): void => {
-    const name = referenceDraft.name.trim();
-    const quote = referenceDraft.quote.trim();
+    const name = censorText(referenceDraft.name.trim());
+    const quote = censorText(referenceDraft.quote.trim());
     if (!name || !quote) return;
 
     form.references.push({
       id: randomId(),
       name,
-      relation: referenceDraft.relation.trim(),
+      relation: censorText(referenceDraft.relation.trim()),
       quote,
       type: referenceDraft.type
     });
@@ -615,12 +661,12 @@ export function useLoveResumeForm() {
 
   const updateReference = (id: string, patch: ReferenceDraft): void => {
     const entry = form.references.find((item) => item.id === id);
-    const name = patch.name.trim();
-    const quote = patch.quote.trim();
+    const name = censorText(patch.name.trim());
+    const quote = censorText(patch.quote.trim());
     if (!entry || !name || !quote) return;
 
     entry.name = name;
-    entry.relation = patch.relation.trim();
+    entry.relation = censorText(patch.relation.trim());
     entry.quote = quote;
     entry.type = patch.type;
     notify(t('toast.referenceUpdated'));
@@ -637,7 +683,7 @@ export function useLoveResumeForm() {
   };
 
   const addSkill = (): void => {
-    const name = skillDraft.name.trim();
+    const name = censorText(skillDraft.name.trim());
     if (!name) return;
 
     form.coupleSkills.push({
@@ -748,18 +794,35 @@ export function useLoveResumeForm() {
     isExporting.value = true;
     pageview({ route: '/export-pdf', path: '/export-pdf' });
 
-    const previousTitle = document.title;
-    const filename = slugify(form.fullName) || 'love-resume';
-
     try {
-      document.title = `CV-love-${filename}`;
       await nextTick();
-      window.print();
+
+      const element = document.querySelector<HTMLElement>('#pdf-export-root');
+      if (!element) throw new Error('Missing PDF export root');
+
+      const { default: html2pdf } = await import('html2pdf.js');
+      const filename = `love-resume-${slugify(form.fullName) || 'cv'}.pdf`;
+
+      const opt = {
+        margin: 0,
+        filename,
+        image: { type: 'jpeg' as const, quality: 0.98 },
+        html2canvas: { scale: 2, backgroundColor: PDF_BACKGROUND, windowWidth: 794 },
+        jsPDF: { orientation: 'portrait' as const, unit: 'mm' as const, format: 'a4' },
+        pagebreak: { mode: ['avoid-all', 'css'] }
+      };
+
+      const rendered = html2pdf().set(opt).from(element).toCanvas();
+
+      const canvas = (await rendered.get('canvas')) as HTMLCanvasElement;
+      const pageSize = (await rendered.get('pageSize')) as { inner: { ratio: number } };
+      const padded = padCanvasToFullPages(canvas, pageSize.inner.ratio);
+
+      await rendered.set({ canvas: padded } as never).toPdf().save();
       notify(t('export.success'));
     } catch {
       notify(t('export.error'));
     } finally {
-      document.title = previousTitle;
       isExporting.value = false;
     }
   };

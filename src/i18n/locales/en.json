@@ -3,13 +3,13 @@
     "brand": "LoveResume",
     "brandTagline": "The resume that puts feelings into words.",
     "title": "A resume that speaks from the heart.",
-    "subtitle": "Your story, your strengths and your way of loving, laid out like a real resume. Ready to print, no account needed.",
+    "subtitle": "Your story, your strengths and your way of loving, laid out like a real resume. Ready to download, no account needed.",
     "disclaimer": "Be kind: never share personal contact details.",
-    "exportCta": "Print / Save as PDF",
-    "exportHint": "Opens the print dialog: choose “Save as PDF”.",
+    "exportCta": "Download PDF",
+    "exportHint": "The PDF downloads directly to your device.",
     "startCta": "Create my resume",
     "mobilePreview": "View preview",
-    "mobileDownload": "Save PDF",
+    "mobileDownload": "Download",
     "skipToForm": "Skip to form"
   },
   "common": {
@@ -187,13 +187,12 @@
   },
   "export": {
     "loading": "Preparing…",
-    "success": "Print window opened. Choose “Save as PDF”.",
-    "error": "Could not open printing. Try again from your browser.",
-    "nameRequired": "Add your name before printing the PDF.",
-    "exampleTitle": "Print the example?",
+    "success": "PDF downloaded.",
+    "error": "Could not generate the PDF. Try again.",
+    "nameRequired": "Add your name before downloading the PDF.",
+    "exampleTitle": "Download the example?",
     "exampleBody": "This is an example: replace the names and details with yours before sharing.",
-    "confirmExample": "Print anyway",
-    "printHint": "Check the content before printing."
+    "confirmExample": "Download anyway"
   },
   "toast": {
     "traitAdded": "“{{value}}” added.",
