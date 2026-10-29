@@ -1,5 +1,7 @@
 .claude
 .opencode
 .DS_Store
+.impeccable/
+docs/
 node_modules
 package-lock.json
